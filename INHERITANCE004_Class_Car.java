@@ -63,7 +63,7 @@ class CLASSIC_CAR extends CAR {
     }
 }
 
-public class CLASS_CAR {
+public class INHERITANCE004_Class_Car {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int t = sc.nextInt();
