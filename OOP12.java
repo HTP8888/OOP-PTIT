@@ -8,11 +8,7 @@ class Author {
     public Author(String name, String email, char gender) {
         this.name = name;
         this.email = email;
-        if (gender == 'f' || gender == 'm') {
-            this.gender = gender;
-        } else {
-            throw new IllegalArgumentException("Gender must be 'f' or 'm'");
-        }
+        this.gender = gender;
     }
 
     public String getName() {
