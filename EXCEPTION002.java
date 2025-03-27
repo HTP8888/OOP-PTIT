@@ -19,7 +19,7 @@ class File {
 
     public int checkFileExtension() throws NotJavaFileException {
         if (fileName == null || fileName.isEmpty()) {
-            throw new NotJavaFileException("Not java file exception. Mark is -1");
+            throw new NotJavaFileException("Not java file exception.Mark is -1");
         }
         if (fileName.endsWith(".java")) {
             return 1;
