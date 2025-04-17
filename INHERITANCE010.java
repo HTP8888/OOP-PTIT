@@ -1,14 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package javaapplication1;
-import java.util.*;
-/**
- *
- * @author 503
- */
 import java.util.*;
 
 abstract class Product {
@@ -21,117 +10,109 @@ abstract class Product {
         this.price = price;
         this.quantity = quantity;
     }
-    public abstract double calculateCost(int quantity);
-    public abstract void displayDetails();
+    abstract double caculateCost(int quantity);
+
     public String getName() {
         return name;
     }
     public int getQuantity() {
         return quantity;
     }
-    public void reduceQuantity(int quantity) {
-        this.quantity -= quantity;
+    public void reduceQuantity(int amount) {
+        quantity -= amount;
+    }
+    public String displayDetails() {
+        return "Name: " + name + "\nPrice: $" + price + "\nAvailable Quantity: " + quantity;
     }
 }
-
 class Book extends Product {
-    private String author;
+    private final String author;
     public Book(String name, double price, int quantity, String author) {
         super(name, price, quantity);
         this.author = author;
     }
     @Override
-    public double calculateCost(int quantity) {
+    double caculateCost(int quantity) {
         return price * quantity;
     }
     @Override
-    public void displayDetails() {
-        System.out.println("Name: " + name);
-        System.out.println("Price: $" + price);
-        System.out.println("Available Quantity: " + quantity);
-        System.out.println("Author: " + author);
+    public String displayDetails() {
+        return super.displayDetails() + "\nAuthor: " + author;
     }
 }
-
 class Electronics extends Product {
-    private String brand;
+    private final String brand;
     public Electronics(String name, double price, int quantity, String brand) {
         super(name, price, quantity);
         this.brand = brand;
     }
     @Override
-    public double calculateCost(int quantity) {
+    double caculateCost(int quantity) {
         return price * quantity * 1.1;
     }
     @Override
-    public void displayDetails() {
-        System.out.println("Name: " + name);
-        System.out.println("Price: $" + price);
-        System.out.println("Available Quantity: " + quantity);
-        System.out.println("Brand: " + brand);
+    public String displayDetails() {
+        return super.displayDetails() + "\nBrand: " + brand;
     }
 }
 class User {
-    private String username;
+    private final String username;
     private double totalSpent;
+
     public User(String username) {
         this.username = username;
-        this.totalSpent = 0.0;
-    }
-    public double getTotalSpent() {
-        return totalSpent;
+        this.totalSpent = 0;
     }
     public String getUsername() {
         return username;
     }
-    public void buyProduct(Product product, int quantity) {
-        if (quantity <= product.getQuantity()) {
-            double total = product.calculateCost(quantity);
-            totalSpent += total;
-            product.reduceQuantity(quantity);
-            System.out.println("User: " + username + " bought " + quantity + " " + product.getName() + " for $" + total);
+    public double getTotalSpent() {
+        return totalSpent;
+    }
+    public void buyProduct(Product product, int qty) {
+        if (qty <= product.getQuantity()) {
+            double cost = product.caculateCost(qty);
+            totalSpent += cost;
+            product.reduceQuantity(qty);
+            System.out.println("User: " + username + " bought " + qty + " " + product.getName() + " for $" + cost);
         } else {
             System.out.println("Insufficient quantity of " + product.getName() + " available.");
         }
     }
 }
-
 public class INHERITANCE010 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int t = sc.nextInt();
-        sc.nextLine();
         while (t-- > 0) {
-            Product laptop = new Electronics("laptop", 20.0, 10, "Dell");
-            Product book = new Book("Harry Potter", 10.0, 12, "camnh");
+            Electronics laptop = new Electronics("laptop", 20, 10, "Dell");
+            Book harryPotter = new Book("Harry Potter", 10, 12, "camnh");
             User user1 = new User("Alice");
             User user2 = new User("Bob");
             User user3 = new User("Charlie");
             user1.buyProduct(laptop, 3);
-            user1.buyProduct(book, 10);
+            user1.buyProduct(harryPotter, 10);
             user2.buyProduct(laptop, 1);
-            user3.buyProduct(book, 5);
+            user3.buyProduct(harryPotter, 5);
             System.out.println("====");
-            User[] users = {user1, user2, user3};
+            System.out.println("Users with Highest Total Spent:");
+            User[] users = { user1, user2, user3 };
             for (int i = 0; i < users.length - 1; i++) {
                 for (int j = i + 1; j < users.length; j++) {
                     if (users[i].getTotalSpent() < users[j].getTotalSpent()) {
-                        User temp = users[i];
+                        User tmp = users[i];
                         users[i] = users[j];
-                        users[j] = temp;
+                        users[j] = tmp;
                     }
                 }
             }
-            System.out.println("Users with Highest Total Spent:");
             for (int i = 0; i < users.length; i++) {
-                System.out.printf("%d. %s: $%.1f\n", i + 1, users[i].getUsername(), users[i].getTotalSpent());
+                System.out.println((i + 1) + ". " + users[i].getUsername() + ": $" + users[i].getTotalSpent());
             }
             System.out.println("====");
-            laptop.displayDetails();
+            System.out.println(laptop.displayDetails());
             System.out.println("---");
-            book.displayDetails();
+            System.out.println(harryPotter.displayDetails());
         }
-
-        sc.close();
     }
 }
