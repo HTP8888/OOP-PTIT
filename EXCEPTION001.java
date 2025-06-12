@@ -1,3 +1,4 @@
+package exception;
 import java.util.*;
 
 class Amount {
@@ -5,16 +6,16 @@ class Amount {
     private int amount;
 
     public Amount(int amount, String currency) {
-        this.amount = amount;
         this.currency = currency;
+        this.amount = amount;
     }
 
     public String getCurrency() {
-        return currency;
+        return this.currency;
     }
 
     public int getAmount() {
-        return amount;
+        return this.amount;
     }
 
     public Amount add(Amount other) throws Exception {
@@ -24,7 +25,7 @@ class Amount {
         return new Amount(this.amount + other.amount, this.currency);
     }
 
-    @Override
+    @Override 
     public String toString() {
         return amount + "";
     }
@@ -33,18 +34,23 @@ class Amount {
 public class EXCEPTION001 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int t = sc.nextInt();
-        sc.nextLine();
+        int t = Integer.parseInt(sc.nextLine());
         while (t-- > 0) {
-            String currency1 = sc.next();
-            int amount1 = sc.nextInt();
-            String currency2 = sc.next();
-            int amount2 = sc.nextInt();
-            sc.nextLine(); 
-            Amount amountObj1 = new Amount(amount1, currency1);
-            Amount amountObj2 = new Amount(amount2, currency2);
+            String line = sc.nextLine();
+            String[] parts = line.split(" ");
+            if (parts.length != 4) {
+                System.out.println("Invalid input format");
+                continue;
+            }
+            String currency1 = parts[0];
+            int amount1 = Integer.parseInt(parts[1]);
+            String currency2 = parts[2];
+            int amount2 = Integer.parseInt(parts[3]);
+
+            Amount obj1 = new Amount(amount1, currency1);
+            Amount obj2 = new Amount(amount2, currency2);
             try {
-                Amount result = amountObj1.add(amountObj2);
+                Amount result = obj1.add(obj2);
                 System.out.println(result);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
